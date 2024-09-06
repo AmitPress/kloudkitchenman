@@ -1,0 +1,55 @@
+services:
+  app:
+    container_name: app
+    restart: always
+    build:
+      context: .
+    command: ["./entrypoint.sh"]
+    environment:
+      PYTHONPYCACHEPREFIX: /cache/cpython/
+      PYTHONUNBUFFERED: 1
+    ports:
+      - ${APP_EXPOSED_PORT}:${APP_CONTAINER_PORT}
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+    networks:
+      - db_net
+  db:
+    container_name: db
+    restart: always
+    image: postgres:16.4-bookworm
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      PGDATA: /var/lib/postgresql/data
+    ports:
+      - ${DB_EXPOSED_PORT}:${DB_CONTAINER_PORT}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - db_net
+
+  db_client:
+    container_name: db_client
+    restart: always
+    image: elestio/pgadmin:latest
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${DB_CLIENT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${DB_CLIENT_PASSWORD}
+      PGADMIN_LISTEN_PORT: ${DB_CLIENT_CONTAINER_PORT}
+    ports:
+      - ${DB_CLIENT_EXPOSE_PORT}:${DB_CLIENT_CONTAINER_PORT}
+    volumes:
+      - ./servers.json:/pgadmin4/servers.json
+    networks:
+      - db_net
+    depends_on:
+      - db
+volumes:
+  pgdata:
+networks:
+  db_net:
+    driver: bridge

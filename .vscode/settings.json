@@ -1,0 +1,24 @@
+{
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "venv": true,
+        "LICENSE": true,
+        ".vscode": true,
+        "kkm_bruno": true,
+        "resources": true,
+        "servers.json": true
+    },
+    "hide-files.files": [
+        "venv",
+        "LICENSE",
+        ".vscode",
+        "kkm_bruno",
+        "resources",
+        "servers.json"
+    ]
+}
