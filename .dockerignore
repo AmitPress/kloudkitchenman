@@ -1,0 +1,8 @@
+venv
+LICENSE
+.vscode
+kkm_bruno
+resources
+# docker volumes
+./pgdata
+./servers.json
