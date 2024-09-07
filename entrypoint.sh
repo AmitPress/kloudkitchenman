@@ -7,7 +7,7 @@ if [ -f .env ]; then
     set +a
 fi
 
-
+sleep 10
 python manage.py makemigrations
 python manage.py migrate
 python manage.py autocreatesuperuser --username $SUPERUSERNAME --email $SUPERUSEREMAIL --password $SUPERUSERPASSWORD
