@@ -4,6 +4,7 @@ from stakeholders.permissions import IsOwner, IsEmployee, IsCustomer
 from stakeholders.serializers import OwnerSerializer, EmployeeSerializer, CustomerSerializer
 from stakeholders.models import Owner, Employee, Customer
 
+# viewset
 
 class OwnerViewSet(ModelViewSet):
     # authentication_classes  = [TokenAuthentication]
