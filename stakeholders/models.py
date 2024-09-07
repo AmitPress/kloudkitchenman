@@ -38,7 +38,7 @@ class User(AbstractBaseUser, PermissionsMixin, TimeStampedModelMixin):
     is_superuser        = models.BooleanField(default=False)
     user_role           = models.CharField(max_length=20, choices=Role.choices)
 
-    name                = models.CharField(max_length=100)
+    username            = models.CharField(max_length=100)
     email               = models.CharField(max_length=255, unique=True)
     password            = models.CharField(max_length=255)
     address             = models.TextField(max_length=1000)
@@ -66,6 +66,7 @@ class Owner(User):
     def save(self, *args, **kwargs):
         self.is_staff        = True 
         self.user_role       = self.Role.Owner
+        self.set_password(self.password)
         super(User, self).save(*args, **kwargs)
 
 
@@ -82,6 +83,7 @@ class Employee(User):
     def save(self, *args, **kwargs):
         self.is_staff        = True 
         self.user_role       = self.Role.Employee
+        self.set_password(self.password)
         super(User, self).save(*args, **kwargs)
 
 # Customer
@@ -96,4 +98,5 @@ class Customer(User):
         proxy = True
     def save(self, *args, **kwargs):
         self.user_role       = self.Role.Customer
+        self.set_password(self.password)
         super(User, self).save(*args, **kwargs)

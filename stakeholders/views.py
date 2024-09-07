@@ -1,27 +1,50 @@
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.response import Response
+from rest_framework.viewsets import ModelViewSet, GenericViewSet
+from rest_framework.mixins import CreateModelMixin
+from rest_framework.authtoken.models import Token
 from rest_framework.authentication import TokenAuthentication
-from stakeholders.permissions import IsOwner, IsEmployee, IsCustomer
-from stakeholders.serializers import OwnerSerializer, EmployeeSerializer, CustomerSerializer
-from stakeholders.models import Owner, Employee, Customer
+from stakeholders.permissions import IsOwner, IsEmployee, IsCustomer, IsSuperuser
+from stakeholders.serializers import OwnerSerializer, EmployeeSerializer, CustomerSerializer, UserSigninSerializer
+from stakeholders.models import User, Owner, Employee, Customer
 
-# viewset
+# crud viewset
 
 class OwnerViewSet(ModelViewSet):
-    # authentication_classes  = [TokenAuthentication]
-    # permission_classes      = [IsOwner]
+    authentication_classes  = [TokenAuthentication]
+    permission_classes      = [IsSuperuser]
     serializer_class        = OwnerSerializer
     queryset                = Owner.objects.all()
 
 
 class EmployeeViewSet(ModelViewSet):
-    # authentication_classes  = [TokenAuthentication]
-    # permission_classes      = [IsEmployee]
+    authentication_classes  = [TokenAuthentication]
+    permission_classes      = [IsOwner]
     serializer_class        = EmployeeSerializer
     queryset                = Employee.objects.all()
 
 
 class CustomerViewSet(ModelViewSet):
-    # authentication_classes  = [TokenAuthentication]
-    # permission_classes      = [IsOwner]
+    authentication_classes  = [TokenAuthentication]
+    permission_classes      = [IsCustomer]
     serializer_class        = CustomerSerializer
     queryset                = Customer.objects.all()
+
+
+# auth viewset
+
+class SuperUserSigninViewSet(GenericViewSet, CreateModelMixin):
+    serializer_class = UserSigninSerializer
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        user = serializer.validated_data["user"]
+        token, created = Token.objects.get_or_create(user=user)
+
+        return Response({
+            "userid": user.id,
+            "username": user.username,
+            "token": token.key
+        })
+    
