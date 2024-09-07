@@ -17,6 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+
+from stakeholders.urls import urlpatterns as stakeholders_urlpatterns
 urlpatterns = [
     path('admin/', admin.site.urls),
-]
+] + stakeholders_urlpatterns

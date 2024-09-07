@@ -3,6 +3,7 @@ from django.db import models
 from helpers.timestampedmodel import TimeStampedModelMixin
 
 
+
 class UserManager(BaseUserManager):
     def create_user(self, username, email, password):
         if not (username and email and password):
@@ -49,3 +50,50 @@ class User(AbstractBaseUser, PermissionsMixin, TimeStampedModelMixin):
         if not self.pk:
             self.user_role = self.Role.Default
         return super().save(*args, **kwargs)
+
+
+
+# Owner
+
+class OwnerManager(BaseUserManager):
+    def get_queryset(self, *args, **kwargs):
+        query_sets = super().get_queryset(*args, **kwargs)
+        return query_sets.filter(user_role = self.model.Role.Owner)
+class Owner(User):
+    objects         = OwnerManager()
+    class Meta:
+        proxy = True
+    def save(self, *args, **kwargs):
+        self.is_staff        = True 
+        self.user_role       = self.Role.Owner
+        super(User, self).save(*args, **kwargs)
+
+
+# Employee
+
+class EmployeeManager(BaseUserManager):
+    def get_queryset(self, *args, **kwargs):
+        query_sets = super().get_queryset(*args, **kwargs)
+        return query_sets.filter(user_role = self.model.Role.Employee)
+class Employee(User):
+    objects         = EmployeeManager()
+    class Meta:
+        proxy = True
+    def save(self, *args, **kwargs):
+        self.is_staff        = True 
+        self.user_role       = self.Role.Employee
+        super(User, self).save(*args, **kwargs)
+
+# Customer
+
+class CustomerManager(BaseUserManager):
+    def get_queryset(self, *args, **kwargs):
+        query_sets = super().get_queryset(*args, **kwargs)
+        return query_sets.filter(user_role = self.model.Role.Customer)
+class Customer(User):
+    objects         = CustomerManager()
+    class Meta:
+        proxy = True
+    def save(self, *args, **kwargs):
+        self.user_role       = self.Role.Customer
+        super(User, self).save(*args, **kwargs)
