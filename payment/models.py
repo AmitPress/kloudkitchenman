@@ -14,9 +14,12 @@ class Card(models.Model, TimeStampedModelMixin):
     cvv             = models.CharField(max_length=64) 
     expiration      = models.DateField(auto_now_add=False)
     postal_code     = models.IntegerField()
-    belongs_to      = models.OneToOneField("stakeholders.Customer", verbose_name=_(""), on_delete=models.CASCADE)
+    belongs_to      = models.ForeignKey("stakeholders.Customer", on_delete=models.CASCADE, related_name="cards")
     status          = models.CharField(max_length=256, choices=Status.choices, default=Status.Active)
 
+    def __str__(self):
+        return self.number
+    
 class Coupon(models.Model, TimeStampedModelMixin):
     class Status(models.TextChoices):
         Active      = "ACTIVE", "active"
@@ -25,8 +28,11 @@ class Coupon(models.Model, TimeStampedModelMixin):
     name            = models.CharField(max_length=128)
     occasion        = models.TextField(max_length=512)
     discount        = models.FloatField(default=0.0)
-    users           = models.ManyToManyField("stakeholders.Customer", on_delete=models.SET_NULL, null=True, related_name="coupons")
+    users           = models.ManyToManyField("stakeholders.Customer", related_name="coupons")
     status          = models.CharField(max_length=256, choices=Status.choices, default=Status.Active)
+
+    def __str__(self):
+        return self.name
 
 class Order(models.Model, TimeStampedModelMixin):
     class State(models.TextChoices):
@@ -35,13 +41,17 @@ class Order(models.Model, TimeStampedModelMixin):
         Delivered   = "DELIVERED", "delivered"
         Completed   = "COMPLETED", "completed"
         Discarded   = "DISCARDED", "discarded"
+    number          = models.CharField(max_length=255)
     status          = models.CharField(max_length=256, choices=State.choices, default=State.Placed)
     customer        = models.ForeignKey("stakeholders.Customer", on_delete=models.SET_NULL, null=True, related_name="orders")
     applied_coupon  = models.ForeignKey("Coupon", on_delete=models.SET_NULL, null=True, related_name="orders")
     total_price     = models.FloatField(default=0.0)
     discounted_price= models.FloatField(default=0.0)
 
+    def __str__(self):
+        return self.number
+    
 class Cart(models.Model, TimeStampedModelMixin):
     order           = models.ForeignKey("Order", on_delete=models.SET_NULL, null=True, related_name="items")
     item            = models.ForeignKey("kitchen.Item", on_delete=models.SET_NULL, null=True, related_name="orders")
-    count           = models.IntegerField()
+    quantity        = models.IntegerField()
