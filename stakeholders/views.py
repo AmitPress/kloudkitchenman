@@ -25,7 +25,7 @@ class EmployeeViewSet(ModelViewSet):
 
 class CustomerViewSet(ModelViewSet):
     authentication_classes  = [TokenAuthentication]
-    permission_classes      = [HasCustomerGET, HasCustomerPUT, HasCustomerPATCH, HasCustomerDELETE]
+    permission_classes      = (HasCustomerGET | HasCustomerPUT | HasCustomerPATCH | HasCustomerDELETE,)
     serializer_class        = CustomerSerializer
     queryset                = Customer.objects.all()
 

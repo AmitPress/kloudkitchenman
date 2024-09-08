@@ -129,35 +129,37 @@ class IsCustomer(BasePermission):
 class HasCustomerGET(BasePermission):
     def has_permission(self, request, view):
         user = request.user
-        if user and user.is_authenticated and getattr(user, "user_role", None) == "Employee":
+        print(user.is_authenticated)
+        if user and user.is_authenticated and getattr(user, "user_role", None) == "CUSTOMER":
+            print(request.method)
             if request.method == "GET":
                 return True
         return False
 class HasCustomerPOST(BasePermission):
     def has_permission(self, request, view):
         user = request.user
-        if user and user.is_authenticated and getattr(user, "user_role", None) == "Employee":
+        if user and user.is_authenticated and getattr(user, "user_role", None) == "CUSTOMER":
             if request.method == "POST":
                 return True
         return False
 class HasCustomerPUT(BasePermission):
     def has_permission(self, request, view):
         user = request.user
-        if user and user.is_authenticated and getattr(user, "user_role", None) == "Employee":
+        if user and user.is_authenticated and getattr(user, "user_role", None) == "CUSTOMER":
             if request.method == "PUT":
                 return True
         return False
 class HasCustomerPATCH(BasePermission):
     def has_permission(self, request, view):
         user = request.user
-        if user and user.is_authenticated and getattr(user, "user_role", None) == "Employee":
+        if user and user.is_authenticated and getattr(user, "user_role", None) == "CUSTOMER":
             if request.method == "PATCH":
                 return True
         return False
 class HasCustomerDELETE(BasePermission):
     def has_permission(self, request, view):
         user = request.user
-        if user and user.is_authenticated and getattr(user, "user_role", None) == "Employee":
+        if user and user.is_authenticated and getattr(user, "user_role", None) == "CUSTOMER":
             if request.method == "DELETE":
                 return True
         return False

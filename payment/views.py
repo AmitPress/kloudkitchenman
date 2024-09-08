@@ -8,24 +8,24 @@ from stakeholders.permissions import IsOwner, IsEmployee, IsCustomer, IsSuperuse
 
 class CardViewSet(ModelViewSet, TimeStampedModelMixin):
     authentication_classes = [TokenAuthentication]
-    permission_classes = [IsCustomer, HasOwnerGET, HasEmployeeGET]
+    permission_classes = (IsCustomer | HasOwnerGET | HasEmployeeGET,)
     serializer_class = CardSerializer
     queryset = Card.objects.all()
 
 class CouponViewSet(ModelViewSet, TimeStampedModelMixin):
     authentication_classes = [TokenAuthentication]
-    permission_classes = [IsOwner, IsEmployee, HasCustomerGET]
+    permission_classes = (IsOwner | IsEmployee | HasCustomerGET,)
     serializer_class = CouponSerializer
     queryset = Coupon.objects.all()
 
 class OrderViewSet(ModelViewSet, TimeStampedModelMixin):
     authentication_classes = [TokenAuthentication]
-    permission_classes = [IsCustomer, HasOwnerGET, HasEmployeeGET]
+    permission_classes = (IsCustomer | HasOwnerGET | HasEmployeeGET,)
     serializer_class = OrderSerializer
     queryset = Order.objects.all()
 
 class CartViewSet(ModelViewSet, TimeStampedModelMixin):
     authentication_classes = [TokenAuthentication]
-    permission_classes = [IsCustomer, HasOwnerGET, HasEmployeeGET]
+    permission_classes = (IsCustomer | HasOwnerGET | HasEmployeeGET,)
     serializer_class = CartSerializer
     queryset = Cart.objects.all()

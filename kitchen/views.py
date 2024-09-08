@@ -14,24 +14,24 @@ class KitchenViewSet(ModelViewSet, TimeStampedModelMixin):
 
 class ItemViewSet(ModelViewSet, TimeStampedModelMixin):
     authentication_classes = [TokenAuthentication]
-    permission_classes = [IsOwner, IsEmployee, HasCustomerGET]
+    permission_classes = (IsOwner | IsEmployee | HasCustomerGET,)
     serializer_class = ItemSerializer
     queryset = Item.objects.all()
 
 class CategoryViewSet(ModelViewSet, TimeStampedModelMixin):
     authentication_classes = [TokenAuthentication]
-    permission_classes = [IsOwner, IsEmployee, HasCustomerGET]
+    permission_classes = (IsOwner | IsEmployee | HasCustomerGET,)
     serializer_class = CategorySerializer
     queryset = Category.objects.all()
 
 class ModifierViewSet(ModelViewSet, TimeStampedModelMixin):
     authentication_classes = [TokenAuthentication]
-    permission_classes = [IsOwner, IsEmployee, HasCustomerGET]
+    permission_classes = (IsOwner | IsEmployee | HasCustomerGET,)
     serializer_class = ModifierSerializer
     queryset = Modifier.objects.all()
 
 class MenuViewSet(ModelViewSet, TimeStampedModelMixin):
     authentication_classes = [TokenAuthentication]
-    permission_classes = [IsOwner, IsEmployee, HasCustomerGET]
+    permission_classes = (IsOwner | IsEmployee | HasCustomerGET,)
     serializer_class = MenuSerializer
     queryset = Menu.objects.all()
