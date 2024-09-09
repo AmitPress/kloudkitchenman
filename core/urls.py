@@ -19,6 +19,9 @@ from django.urls import path
 
 
 from stakeholders.urls import urlpatterns as stakeholders_urlpatterns
+from kitchen.urls import urlpatterns as kitchen_urlpatterns
+from payment.urls import urlpatterns as payment_urlpatterns
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-] + stakeholders_urlpatterns
+] + stakeholders_urlpatterns + kitchen_urlpatterns + payment_urlpatterns

@@ -3,7 +3,7 @@ from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from rest_framework.mixins import CreateModelMixin
 from rest_framework.authtoken.models import Token
 from rest_framework.authentication import TokenAuthentication
-from stakeholders.permissions import IsOwner, IsEmployee, IsCustomer, IsSuperuser
+from stakeholders.permissions import IsOwner, IsEmployee, IsCustomer, IsSuperuser, HasCustomerGET, HasCustomerPUT, HasCustomerPATCH, HasCustomerDELETE, HasGuestPOST
 from stakeholders.serializers import OwnerSerializer, EmployeeSerializer, CustomerSerializer, UserSigninSerializer
 from stakeholders.models import User, Owner, Employee, Customer
 
@@ -11,28 +11,28 @@ from stakeholders.models import User, Owner, Employee, Customer
 
 class OwnerViewSet(ModelViewSet):
     authentication_classes  = [TokenAuthentication]
-    permission_classes      = [IsSuperuser]
+    permission_classes      = [IsSuperuser] # only a super user can literally do anything to an owner
     serializer_class        = OwnerSerializer
     queryset                = Owner.objects.all()
 
 
 class EmployeeViewSet(ModelViewSet):
     authentication_classes  = [TokenAuthentication]
-    permission_classes      = [IsOwner]
+    permission_classes      = [IsOwner] # only owners can create emplotee
     serializer_class        = EmployeeSerializer
     queryset                = Employee.objects.all()
 
 
 class CustomerViewSet(ModelViewSet):
     authentication_classes  = [TokenAuthentication]
-    permission_classes      = [IsCustomer]
+    permission_classes      = (HasCustomerGET | HasCustomerPUT | HasCustomerPATCH | HasCustomerDELETE,)
     serializer_class        = CustomerSerializer
     queryset                = Customer.objects.all()
 
 
-# auth viewset
+# user signin
 
-class SuperUserSigninViewSet(GenericViewSet, CreateModelMixin):
+class UserSigninViewSet(GenericViewSet, CreateModelMixin):
     serializer_class = UserSigninSerializer
 
     def create(self, request, *args, **kwargs):
@@ -48,3 +48,10 @@ class SuperUserSigninViewSet(GenericViewSet, CreateModelMixin):
             "token": token.key
         })
     
+# only customer signup
+
+class CustomerSignupViewSet(GenericViewSet, CreateModelMixin):
+    authentication_classes  = [TokenAuthentication]
+    permission_classes      = [HasGuestPOST]
+    serializer_class = CustomerSerializer
+    queryset = Customer.objects.all()

@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.authentication import authenticate
 from stakeholders.models import Owner, Employee, Customer
-
+from payment.serializers import CouponSerializer
 class OwnerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Owner
@@ -13,9 +13,12 @@ class EmployeeSerializer(serializers.ModelSerializer):
         exclude = ["is_staff", "is_superuser", "last_login", "user_role"]
 
 class CustomerSerializer(serializers.ModelSerializer):
+    coupons = serializers.SerializerMethodField()
     class Meta:
         model = Customer
         exclude = ["is_staff", "is_superuser", "last_login", "user_role"]
+    def get_coupons(self, obj):
+        return obj.coupons.values_list("id", flat=True)
 
 class UserSigninSerializer(serializers.Serializer):
     email    = serializers.CharField(required=True)
