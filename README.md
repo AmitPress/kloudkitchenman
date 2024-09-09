@@ -11,7 +11,7 @@ As you can see I have used dbdiagram.io to version control the diagram. You can 
 Please refer the `Functionalities` section to have a clear understanding on the working application.
 
 #### Functionalities
-
+We have 4 different types of `Users` and they are `SuperUser`(automatically created), Owner, Employee, Customer. We have permissions defined in the `stakeholders/permissions.py` file. I have extended the user creation rule a bit. How? With apis, The `Owner` can be created only by the `SuperUser`. And `Employee` can be only created by the `Owner`. Again, no one can create `Customer` but an `Anonymous` user which is strictly saying a non-signedup entity. Please have patience and skim through the codebase to have a better understanding as of now. I will be updating this very soon to give you more insight.
 
 #### Prerequisites for Building and Running the Application
 * Make sure docker is installed
@@ -22,7 +22,10 @@ Actually I made the docker configuration use caching so the later requirement is
 #### Prerequisites for Building and Running the Application
 * Clone the repository
 * Change Directory to `kloudkitchenman`
+* Do `cp .env.example .env` or just copy rename the `.env.example` to `.env`
 * Run `docker compose up` or `docker compose up --build`
+
+With this it should be up and running.
 
 > Note: You may need `sudo` if you have installed docker under root user. I have developed this in my windows machine.
 
