@@ -1,0 +1,24 @@
+meta {
+  name: create_owner
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{app_url}}/users/owner/
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Token {{user_auth_token}}
+}
+
+body:json {
+  {
+    "username": "owner1",
+    "email": "owner1@owner1.com",
+    "address": "sdg fssd",
+    "password": "owner1"
+  }
+}

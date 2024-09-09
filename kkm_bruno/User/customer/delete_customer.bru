@@ -1,0 +1,15 @@
+meta {
+  name: delete_customer
+  type: http
+  seq: 4
+}
+
+delete {
+  url: {{app_url}}/users/customer/2/
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Token {{user_auth_token}}
+}

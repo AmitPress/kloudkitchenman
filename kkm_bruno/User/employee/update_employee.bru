@@ -1,0 +1,24 @@
+meta {
+  name: update_employee
+  type: http
+  seq: 3
+}
+
+put {
+  url: {{app_url}}/users/employee/3/
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Token {{user_auth_token}}
+}
+
+body:json {
+  {
+      "username": "emp4",
+      "email": "emp7@emp.com",
+      "password": "emp4",
+      "address": "mockery"
+  }
+}

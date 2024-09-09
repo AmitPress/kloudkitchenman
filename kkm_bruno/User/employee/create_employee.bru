@@ -1,0 +1,24 @@
+meta {
+  name: create_employee
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{app_url}}/users/employee/
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Token {{user_auth_token}}
+}
+
+body:json {
+  {
+      "username": "emp1",
+      "email": "emp1@emp.com",
+      "password": "emp1",
+      "address": "mockery"
+  }
+}

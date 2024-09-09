@@ -26,7 +26,7 @@ class HasGuestPOST(BasePermission):
 class IsSuperuser(BasePermission):
     def has_permission(self, request, view):
         user = request.user
-        if user and user.is_authenticated and user.is_superuser and hasattr(user, "user_role", None) == "DEFAULT":
+        if user and user.is_authenticated and user.is_superuser and getattr(user, "user_role", None) == "DEFAULT":
             return True
         return False
 
@@ -147,6 +147,7 @@ class HasCustomerPUT(BasePermission):
         user = request.user
         if user and user.is_authenticated and getattr(user, "user_role", None) == "CUSTOMER":
             if request.method == "PUT":
+                print("hit")
                 return True
         return False
 class HasCustomerPATCH(BasePermission):

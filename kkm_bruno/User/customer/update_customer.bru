@@ -1,0 +1,24 @@
+meta {
+  name: update_customer
+  type: http
+  seq: 2
+}
+
+put {
+  url: {{app_url}}/users/customer/2/
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Token {{user_auth_token}}
+}
+
+body:json {
+  {
+    "username": "cuss",
+    "email": "cus@cus.com",
+    "address": "sdgfssd",
+    "password": "cuss"
+  }
+}

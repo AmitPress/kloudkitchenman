@@ -1,0 +1,20 @@
+meta {
+  name: signup
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{app_url}}/users/customer-signup/
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "username": "cuss",
+    "email": "cus@cus.com",
+    "address": "sdgfssd",
+    "password": "cuss"
+  }
+}

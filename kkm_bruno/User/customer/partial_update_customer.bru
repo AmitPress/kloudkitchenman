@@ -1,0 +1,21 @@
+meta {
+  name: partial_update_customer
+  type: http
+  seq: 3
+}
+
+patch {
+  url: {{app_url}}/users/customer/2/
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Token {{user_auth_token}}
+}
+
+body:json {
+  {
+    "username": "cus"
+  }
+}

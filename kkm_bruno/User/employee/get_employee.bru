@@ -1,0 +1,15 @@
+meta {
+  name: get_employee
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{app_url}}/users/employee
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Token {{user_auth_token}}
+}

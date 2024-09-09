@@ -41,12 +41,16 @@ class Order(models.Model, TimeStampedModelMixin):
         Delivered   = "DELIVERED", "delivered"
         Completed   = "COMPLETED", "completed"
         Discarded   = "DISCARDED", "discarded"
+    class PaymentMethod(models.TextChoices):
+        Cash      = "CASH", "cash"
+        Card      = "CARD", "card"
     number          = models.CharField(max_length=255)
     status          = models.CharField(max_length=256, choices=State.choices, default=State.Placed)
     customer        = models.ForeignKey("stakeholders.Customer", on_delete=models.SET_NULL, null=True, related_name="orders")
     applied_coupon  = models.ForeignKey("Coupon", on_delete=models.SET_NULL, null=True, related_name="orders")
     total_price     = models.FloatField(default=0.0)
     discounted_price= models.FloatField(default=0.0)
+    payment_method  = models.CharField(max_length=255, choices=PaymentMethod.choices, default=PaymentMethod.Cash)
 
     def __str__(self):
         return self.number
