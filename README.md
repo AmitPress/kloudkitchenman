@@ -2,7 +2,7 @@
 KloudKitchenMan is a cloud kitchen management software backend implemented with django and django rest framework. This application provides apis to interact with various online food deliver functionalities.
 
 #### The Architecture
-I had plan a ERD for the full application which is now kind of partially obsolute.
+I had planned an ERD for the full application which is now kind of partially obsolute.
 ![APP ERD](/resources/kloudkitchen.png "ERD")
 > Note: This is modified on the go while developing the apis. This will be updated shortly.
 
