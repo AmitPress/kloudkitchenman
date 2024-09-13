@@ -22,6 +22,7 @@ Actually I made the docker configuration use caching so the later requirement is
 #### Prerequisites for Building and Running the Application
 * Clone the repository
 * Change Directory to `kloudkitchenman`
+* Do `chmod +x ./entrypoint.sh`
 * Do `cp .env.example .env` or just copy rename the `.env.example` to `.env`
 * Run `docker compose up` or `docker compose up --build`
 
